@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC REDEEM</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .input-group input:focus, .input-group select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+        .uc-select {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+        }
+        .uc-select.show {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .uc-select select {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #667eea;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s, filter 0.3s;
+        }
+        button:hover {
+            background-color: #5a67d8;
+        }
+        button:active {
+            transform: scale(0.95);
+            filter: blur(2px);
+        }
+        .input-group input::placeholder {
+            color: #aaa;
+        }
+        .spacer {
+            margin-bottom: 10px;
+        }
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .language-switch button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .language-switch button:hover {
+            background-color: #4c51bf;
+        }
+        .language-switch img {
+            border-radius: 50%;
+            width: 20px;
+        }
+        .additional-data {
+            display: none;
+            margin-top: 20px;
+        }
+        .additional-data.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switch">
+            <button onclick="switchLanguage('tm')" title="Türkmençe">
+                <img src="https://flagcdn.com/w40/tm.png" alt="TM Flag"> TM
+            </button>
+            <button onclick="switchLanguage('en')" title="English">
+                <img src="https://flagcdn.com/w40/gb.png" alt="EN Flag"> EN
+            </button>
+            <button onclick="switchLanguage('ru')" title="Русский">
+                <img src="https://flagcdn.com/w40/ru.png" alt="RU Flag"> RU
+            </button>
+        </div>
+        <h1>UC REDEEM</h1>
+        <div class="input-group">
+            <label for="uidInput">UID:</label>
+            <input type="text" id="uidInput" placeholder="Game UID">
+        </div>
+        <div class="input-group">
+            <label for="phoneInput">Phone number:</label>
+            <input type="text" id="phoneInput" placeholder="Phone number">
+        </div>
+        <div class="spacer"></div>
+        <div class="input-group uc-select" id="ucSelect">
+            <label for="numberSelect">UC:</label>
+            <select id="numberSelect">
+                <option value="60">60</option>
+                <option value="325">325</option>
+                <option value="660">660</option>
+                <option value="1800">1800</option>
+                <option value="3850">3850</option>
+                <option value="8100">8100</option>
+            </select>
+        </div>
+        <button onclick="toggleUCSelect()">Choose UC</button>
+        <div class="spacer"></div>
+        <button onclick="toggleAdditionalData()">Send money</button>
+        <div class="spacer"></div>
+        <button onclick="sendData()">Send</button>
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+        <div class="additional-data" id="additionalData">
+            <div class="input-group">
+                <label for="dataInput1">Terminaldan bolsa şu plan nomera puly oklap geçiren wagtyňyzy aşakda ýazyň:</label>
+                <input type="text" id="dataInput1" placeholder="Hökman dolduryň!!!">
+            </div>
+            <div class="input-group">
+                <label for="dataInput2">Nomerdan bolsa şu plan nomera puly oklap aşakda oklan nomeriňizi ýazyň:</label>
+                <input type="text" id="dataInput2" placeholder="Hökman dolduryň!!!">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init('VtyExt9QCRzt254gr'); // Replace with your actual user_id
+
+        function toggleUCSelect() {
+            const ucSelect = document.getElementById("ucSelect");
+            ucSelect.classList.toggle("show");
+        }
+
+        function sendData() {
+            const uid = document.getElementById("uidInput").value.trim();
+            const phone = document.getElementById("phoneInput").value.trim();
+            const selectedNumber = document.getElementById("numberSelect").value;
+            const additionalData1 = document.getElementById("dataInput1")?.value.trim() || "";
+            const additionalData2 = document.getElementById("dataInput2")?.value.trim() || "";
+
+            if (!uid || !phone) {
+                alert('Пожалуйста, заполните все поля.');
+                return;
+            }
+
+            const templateParams = {
+                uid,
+                phone,
+                uc: selectedNumber,
+                additionalData1,
+                additionalData2
+            };
+
+            emailjs.send('service_lyact7j', 'template_6zpwoux', templateParams)
+                .then(response => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Данные отправлены успешно!');
+                })
+                .catch(error => {
+                    console.error('FAILED...', error);
+                    alert('Ошибка отправки: ' + JSON.stringify(error));
+                });
+        }
+
+        function toggleAdditionalData() {
+            const additionalDataDiv = document.getElementById("additionalData");
+            additionalDataDiv.classList.toggle("active");
+        }
+
+        function switchLanguage(lang) {
+            const languages = {
+                tm: {
+                    title: "UC REDEEM",
+                    uidLabel: "Ulanyjy ID:",
+                    phoneLabel: "Telefon belgisi:",
+                    uidPlaceholder: "Oýun ID-si",
+                    phonePlaceholder: "Telefon belgisi",
+                    chooseButton: "UC Saýla",
+                    sendButton: "Ugrat",
+                    addButton: "Pul ugratmak",
+                    additional1: "Terminaldan bolsa şu plan nomera puly oklap geçiren wagtyňyzy aşakda ýazyň:",
+                    additional2: "Nomerdan bolsa şu plan nomera puly oklap aşakda oklan nomeriňizi ýazyň:",
+                    additionalPlaceholder: "Hökman dolduryň!!!"
+                },
+                en: {
+                    title: "UC REDEEM",
+                    uidLabel: "UID:",
+                    phoneLabel: "Phone number:",
+                    uidPlaceholder: "Game UID",
+                    phonePlaceholder: "Phone number",
+                    chooseButton: "Choose UC",
+                    sendButton: "Send",
+                    addButton: "Send money",
+                    additional1: "If using a terminal, write below the time of the payment to this number:",
+                    additional2: "If using a phone, write below the number you sent the payment from:",
+                    additionalPlaceholder: "Required!!!"
+                },
+                ru: {
+                    title: "UC REDEEM",
+                    uidLabel: "UID:",
+                    phoneLabel: "Номер телефона:",
+                    uidPlaceholder: "Игровой UID",
+                    phonePlaceholder: "Номер телефона",
+                    chooseButton: "Выбрать UC",
+                    sendButton: "Отправить",
+                    addButton: "Отправка денег",
+                    additional1: "Если через терминал, укажите ниже время отправки на этот номер:",
+                    additional2: "Если через телефон, укажите ниже номер, с которого отправляли деньги:",
+                    additionalPlaceholder: "Обязательно заполните!!!"
+                },
+            };
+        
+            const selectedLang = languages[lang];
+            if (selectedLang) {
+                document.querySelector("h1").textContent = selectedLang.title;
+                document.querySelector("label[for='uidInput']").textContent = selectedLang.uidLabel;
+                document.querySelector("label[for='phoneInput']").textContent = selectedLang.phoneLabel;
+                document.querySelector("input#uidInput").placeholder = selectedLang.uidPlaceholder;
+                document.querySelector("input#phoneInput").placeholder = selectedLang.phonePlaceholder;
+                document.querySelector("button[onclick='toggleUCSelect()']").textContent = selectedLang.chooseButton;
+                document.querySelector("button[onclick='sendData()']").textContent = selectedLang.sendButton;
+                document.querySelector("button[onclick='toggleAdditionalData()']").textContent = selectedLang.addButton;
+                document.querySelector("label[for='dataInput1']").textContent = selectedLang.additional1;
+                document.querySelector("label[for='dataInput2']").textContent = selectedLang.additional2;
+                document.querySelectorAll(".additional-data input").forEach(input => {
+                    input.placeholder = selectedLang.additionalPlaceholder;
+                });
+            }
+        }
+        
+
+
+    </script>
+</body>
+</html>
